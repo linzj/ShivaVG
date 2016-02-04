@@ -153,6 +153,8 @@ void testDrawString(float x, float y, const char *format, ...)
   
   va_start(ap, format);
   len = vsnprintf(NULL, 0, format, ap);
+  va_end(ap);
+  va_start(ap, format);
   text = (char*)malloc(len+1);
   if (!text) {va_end(ap); return;}
   vsnprintf(text, len+1, format, ap);

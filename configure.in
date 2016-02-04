@@ -106,7 +106,7 @@ case "${host}" in
 	GL_LIB="-lGL"
 	GLU_LIB="-lGLU"
 	GLUT_LIB="-lglut"
-	CONFIG_CFLAGS=""
+	CONFIG_CFLAGS="-O0 -g3"
 	CONFIG_LDFLAGS=""
 	CONFIG_LDADD="-lglut -lGL -lGLU" ;;
 	
@@ -141,7 +141,7 @@ esac
 # ===============================================
 # Check for OpenGL and GLUT libraries
 
-LDFLAGS="$LDFLAGS $GL_LIB"
+LIBS="$GL_LIB"
 
 echo -n "checking for OpenGL library... "
 AC_LINK_IFELSE([
@@ -157,7 +157,7 @@ case "${host}" in
 		[has_glx="yes"], [has_glx="no"]) ;;
 esac
 
-LDFLAGS="$LDFLAGS $GLU_LIB"
+LIBS="$GLU_LIB"
 
 echo -n "checking for GLU library... "
 AC_LINK_IFELSE([
@@ -166,7 +166,7 @@ AC_LINK_IFELSE([
 	[has_glu="yes"] && [echo "yes"],
 	[has_glu="no"] && [echo "no"])
 
-LDFLAGS="$LDFLAGS $GLUT_LIB"
+LIBS="$GLUT_LIB"
 
 echo -n "checking for GLUT library... "
 AC_LINK_IFELSE([
@@ -181,7 +181,7 @@ LDFLAGS=""
 # JPEG library required for VGImage example
 
 CFLAGS="-I$prefix/include"
-LDFLAGS="-ljpeg -L/usr/local/lib -L$prefix/lib"
+LIBS="-ljpeg -L/usr/local/lib "
 
 AC_CHECK_HEADERS(
 	[jpeglib.h],
