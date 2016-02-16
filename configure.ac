@@ -1,8 +1,10 @@
 AC_INIT(ShivaVG, 0.2.1)
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h:config.h.in])
 AM_INIT_AUTOMAKE
 AC_CANONICAL_HOST
 
+AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_LIBTOOL
@@ -112,9 +114,14 @@ case "${host}" in
 	
 esac
 
+CONFIG_FT2_CFLAGS=`pkg-config --cflags freetype2`
+CONFIG_FT2_LIBS=`pkg-config --libs freetype2`
+
 AC_SUBST([CONFIG_CFLAGS])
 AC_SUBST([CONFIG_LDFLAGS])
 AC_SUBST([CONFIG_LDADD])
+AC_SUBST([CONFIG_FT2_CFLAGS])
+AC_SUBST([CONFIG_FT2_LIBS])
 
 # ==============================================
 # Check for OpenGL and GLUT headers
@@ -144,9 +151,9 @@ esac
 LIBS="$GL_LIB"
 
 echo -n "checking for OpenGL library... "
-AC_LINK_IFELSE([
+AC_LINK_IFELSE([AC_LANG_SOURCE([
 	char glEnd();
-	int main(void) {glEnd(); return 0;}],
+	int main(void) {glEnd(); return 0;}])],
 	[has_gl="yes"] && [echo "yes"],
 	[has_gl="no"] && [echo "no"])
 
@@ -160,18 +167,18 @@ esac
 LIBS="$GLU_LIB"
 
 echo -n "checking for GLU library... "
-AC_LINK_IFELSE([
+AC_LINK_IFELSE([AC_LANG_SOURCE([
 	char gluOrtho2D();
-	int main(void) {gluOrtho2D(); return 0;}],
+	int main(void) {gluOrtho2D(); return 0;}])],
 	[has_glu="yes"] && [echo "yes"],
 	[has_glu="no"] && [echo "no"])
 
 LIBS="$GLUT_LIB"
 
 echo -n "checking for GLUT library... "
-AC_LINK_IFELSE([
+AC_LINK_IFELSE([AC_LANG_SOURCE([
 	char glutInit();
-	int main(void) {glutInit(); return 0;}],
+	int main(void) {glutInit(); return 0;}])],
 	[has_glut="yes"] && [echo "yes"],
 	[has_glut="no"] && [echo "no"])
 
@@ -188,11 +195,11 @@ AC_CHECK_HEADERS(
 	[has_jpeg_h="yes"], [has_jpeg_h="no"])
 
 echo -n "checking for JPEG library... "
-AC_LINK_IFELSE([
+AC_LINK_IFELSE([AC_LANG_SOURCE([
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <jpeglib.h>
-	int main(void) {jpeg_create_decompress(0); return 0;}],
+	int main(void) {jpeg_create_decompress(0); return 0;}])],
 	[has_jpeg="yes"] && echo "yes",
 	[has_jpeg="no"] && echo "no")
 
