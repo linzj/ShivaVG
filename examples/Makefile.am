@@ -10,7 +10,6 @@ EXAMPLE_SRCS = test.h test.c
 EXAMPLE_CF = @CONFIG_CFLAGS@ -I${INCLUDE_VG_DIR} -I${prefix}/include
 EXAMPLE_LA =  ${LIB_VG} @CONFIG_LDADD@ -lm
 EXAMPLE_LF = @CONFIG_LDFLAGS@ -L${prefix}/lib
-
 EXTRA_DIST = *.jpg *.png
 
 noinst_PROGRAMS =
@@ -51,6 +50,8 @@ if BUILD_BLEND
 noinst_PROGRAMS += test_blend
 endif
 
+noinst_PROGRAMS += test_glyph
+
 test_vgu_SOURCES =\
 	${EXAMPLE_SRCS} test_vgu.c
 
@@ -78,6 +79,8 @@ test_pattern_SOURCES =\
 test_blend_SOURCES =\
 	${EXAMPLE_SRCS} test_blend.c
 
+test_glyph_SOURCES =\
+	${EXAMPLE_SRCS} test_glyph.cpp
 
 test_vgu_CFLAGS = ${EXAMPLE_CF}
 test_vgu_LDADD = ${EXAMPLE_LA}
@@ -114,3 +117,8 @@ test_pattern_LDFLAGS = ${EXAMPLE_LF}
 test_blend_CFLAGS = ${EXAMPLE_CF}
 test_blend_LDADD = ${EXAMPLE_LA}
 test_blend_LDFLAGS = ${EXAMPLE_LF}
+
+test_glyph_CFLAGS = ${EXAMPLE_CF}
+test_glyph_CXXFLAGS = ${EXAMPLE_CF} @CONFIG_FT2_CFLAGS@ -std=c++11
+test_glyph_LDADD = ${EXAMPLE_LA} -lfontconfig @CONFIG_FT2_LIBS@ -ldl
+test_glyph_LDFLAGS = ${EXAMPLE_LF}
